@@ -10,12 +10,12 @@ class MagicCornerUser(models.Model):
         return self.first_name + ' ' + self.last_name
     
 class GameRoom(models.Model):
-    room_number = models.IntegerField('Room Number')
+    room_name = models.CharField('Room Name', max_length=30, blank=True)
     max_players = models.IntegerField('Max Players')
-    is_full = models.BooleanField('Room Full', blank=False, null=False)
+    is_full = models.BooleanField('Room Full', blank=True, null=True)
 
     def __str__(self):
-        return str(self.room_number)
+        return str(self.room_name)
 
 class Event(models.Model):
     game_name = models.CharField('Game Name', max_length=120)

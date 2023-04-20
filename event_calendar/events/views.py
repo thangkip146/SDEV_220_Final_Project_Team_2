@@ -3,6 +3,8 @@ import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
 from .models import Event, MagicCornerUser, GameRoom
+from .forms import GameRoomForm
+from django.http import HttpResponseRedirect
 
 
 #Default to current Month and Year
@@ -23,7 +25,6 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
     current_year = now.year
     current_month = now.month
 
-    #month_number = int(month_number)
     return render(request, 'events/index.html', {
         "year":year,
         "month":month,
@@ -34,7 +35,26 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
         "current_month":current_month,
     })
 
+#Page to list all the registered games in one list
 def all_games(request):
     game_list = Event.objects.all()
     return render(request, 'events/game_list.html',
                   {'game_list': game_list})
+
+#Page to add new game rooms (locked behind page admin access only)
+def add_room(request):
+    submitted = False
+    #Validate if form is being submitted to post to database
+    if request.method == "POST":
+        form = GameRoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/add_room?submitted=True/')
+
+    else:
+        form = GameRoomForm
+        if 'submitted' in request.GET:
+            submitted = True
+    
+    return render(request, 'events/add_room.html',
+                  {'form':form, 'submitted': submitted})
