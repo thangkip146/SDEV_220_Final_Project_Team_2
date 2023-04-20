@@ -1,0 +1,28 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    
+    <h1>Magic Corner</h1>
+    <h2>Games List</h2>
+    <br/>
+    
+    {% for games in game_list %}
+        <strong>{{ games.game_name }}</strong>
+        <ul>
+            
+            <li>Date & Time: {{ games.game_date }}</li>
+            <li>Room #: {{ games.game_room }}</li>
+            <li>Hosted By: {{ games.table_host }}</li>
+            <li>Description: {{ games.game_description }}</li>
+            <li>Max Players: {{ games.game_room.max_players }}</li>
+            <li>Players Attending: <br/>
+            {% for player in games.players.all %}
+                {{ player }} <br/>
+            {% endfor %}
+            </li>
+        </ul>
+    {% endfor %}
+    
+    
+    
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+
 class MagicCornerUser(models.Model):
     first_name = models.CharField('First Name', max_length=30)
     last_name = models.CharField('Last Name', max_length=30)
@@ -10,10 +11,10 @@ class MagicCornerUser(models.Model):
 class GameRoom(models.Model):
     room_number = models.IntegerField('Room Number')
     max_players = models.IntegerField('Max Players')
-    is_full = models.BooleanField(blank=False, null=False)
+    is_full = models.BooleanField('Room Full', blank=False, null=False)
 
     def __str__(self):
-        return self.name
+        return str(self.room_number)
 
 class Event(models.Model):
     game_name = models.CharField('Game Name', max_length=120)
@@ -22,6 +23,7 @@ class Event(models.Model):
     table_host = models.CharField('Game Host', max_length=60)
     game_description = models.TextField(blank=True)
     players = models.ManyToManyField(MagicCornerUser, blank=True)
+
     def __str__(self):
-        return self.name
+        return self.game_name
     

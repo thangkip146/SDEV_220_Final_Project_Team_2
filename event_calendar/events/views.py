@@ -2,6 +2,8 @@ from django.shortcuts import render
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
+from .models import Event, MagicCornerUser, GameRoom
+
 
 #Default to current Month and Year
 def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
@@ -30,5 +32,9 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
         "cal":cal,
         "current_year":current_year,
         "current_month":current_month,
-
     })
+
+def all_games(request):
+    game_list = Event.objects.all()
+    return render(request, 'events/game_list.html',
+                  {'game_list': game_list})
