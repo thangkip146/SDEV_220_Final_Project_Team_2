@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class MagicCornerUser(models.Model):
     first_name = models.CharField('First Name', max_length=30)
@@ -20,7 +21,7 @@ class Event(models.Model):
     game_name = models.CharField('Game Name', max_length=120)
     game_date = models.DateTimeField('Game Date')
     game_room = models.ForeignKey(GameRoom, blank=True, null=True, on_delete=models.CASCADE)
-    table_host = models.CharField('Game Host', max_length=60)
+    table_host = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     game_description = models.TextField(blank=True)
     players = models.ManyToManyField(MagicCornerUser, blank=True)
 
