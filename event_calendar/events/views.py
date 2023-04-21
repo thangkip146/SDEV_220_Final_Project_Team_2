@@ -3,7 +3,7 @@ import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
 from .models import Event, MagicCornerUser, GameRoom
-from .forms import GameRoomForm
+from .forms import GameRoomForm, EventForm
 from django.http import HttpResponseRedirect
 
 
@@ -57,6 +57,24 @@ def search_games(request):
     else:
         return render(request, 'events/search_games.html', {})
 
+#page to add new games to the calendar
+def add_game(request):
+    submitted = False
+    #Validate if form is being submitted to post to database
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/add_game?submitted=True/')
+
+    else:
+        form = EventForm
+        if 'submitted' in request.GET:
+            submitted = True
+    
+    return render(request, 'events/add_game.html',
+                  {'form':form, 'submitted': submitted})
+
 #Page to add new game rooms (locked behind page admin access only)
 def add_room(request):
     submitted = False
@@ -95,3 +113,4 @@ def update_room(request, room_id):
     return render(request, 'events/update_room.html',
                   {'room': room,
                    'form':form})
+

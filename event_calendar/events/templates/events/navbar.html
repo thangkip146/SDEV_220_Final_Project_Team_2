@@ -8,16 +8,22 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'add-game' %}">Add Game</a>
+          </li>
+
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'list-games' %}">Games List</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'list-rooms' %}">Rooms</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add-room' %}">Add Game Room</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-rooms' %}">Rooms</a>
-          </li>
+
 
         </ul>
         <form class="d-flex" role="search" method=POST action="{% url 'search-games' %}">
