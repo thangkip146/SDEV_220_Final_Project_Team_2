@@ -16,7 +16,8 @@
             <li>Hosted By: {{ game.table_host }}</li>
         </ul>
         <a href="{% url 'update-game' game.id %}"
-        class="btn btn-outline-secondary btn-sm">Update</a> <br/><br/>
+        class="btn btn-outline-secondary btn-sm">Update</a>         <a href="{% url 'delete-game' game.id %}"
+        class="btn btn-outline-danger btn-sm">Delete</a> <br/><br/>
     {% endfor %}
     
     

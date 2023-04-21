@@ -9,7 +9,8 @@
     {% for room in room_list %}
         <h3>
         <a  href="{% url 'show-room' room.id %}">{{ room }}</a> -- <a href="{% url 'update-room' room.id %}"
-        class="btn btn-outline-secondary btn-sm">Update</a> <br/><br/>
+        class="btn btn-outline-secondary btn-sm">Update</a> <a href="{% url 'delete-room' room.id %}"
+        class="btn btn-outline-danger btn-sm">Delete</a><br/><br/>
         </h3>    
     {% endfor %}
     

@@ -86,6 +86,12 @@ def update_game(request, game_id):
                   {'game': game,
                    'form':form})
 
+#page to delete game
+def delete_game(request, game_id):
+    game = Event.objects.get(pk=game_id)
+    game.delete()
+    return redirect('list-games')
+
 #Page to add new game rooms (locked behind page admin access only)
 def add_room(request):
     submitted = False
@@ -127,3 +133,8 @@ def update_room(request, room_id):
                   {'room': room,
                    'form':form})
 
+#page to delete a room
+def delete_room(request, room_id):
+    room = GameRoom.objects.get(pk=room_id)
+    room.delete()
+    return redirect('list-rooms')
