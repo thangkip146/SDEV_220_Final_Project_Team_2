@@ -47,6 +47,16 @@ def show_game(request, game_id):
     return render(request, 'events/game.html',
                   {'game': game})
 
+#page to display search games results
+def search_games(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        games = Event.objects.filter(game_name__contains = searched)
+        return render(request, 'events/search_games.html', {'searched':searched,
+                                                            'games':games})
+    else:
+        return render(request, 'events/search_games.html', {})
+
 #Page to add new game rooms (locked behind page admin access only)
 def add_room(request):
     submitted = False

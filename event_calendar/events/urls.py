@@ -8,4 +8,5 @@ urlpatterns = [
     path('games/', views.all_games, name="list-games"),
     path('add_room/',views.add_room,name="add-room"),
     path('show_game/<game_id>', views.show_game, name="show-game"),
+    path('search_games/',views.search_games,name="search-games"),
 ]
