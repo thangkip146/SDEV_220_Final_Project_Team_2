@@ -12,7 +12,8 @@ urlpatterns = [
     path('search_games/',views.search_games,name="search-games"),
     path('games/', views.all_games, name="list-games"),
     path('show_game/<game_id>', views.show_game, name="show-game"),
-    
+    path('update_game/<game_id>', views.update_game, name="update-game"),
+
     #rooms
     path('add_room/',views.add_room,name="add-room"),
     path('rooms/', views.all_rooms, name="list-rooms"),

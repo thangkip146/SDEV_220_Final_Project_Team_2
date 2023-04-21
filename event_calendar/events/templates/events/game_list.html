@@ -14,9 +14,9 @@
             <li>Date & Time: {{ game.game_date }}</li>
             <li>Room #: {{ game.game_room }}</li>
             <li>Hosted By: {{ game.table_host }}</li>
-
-            </li>
         </ul>
+        <a href="{% url 'update-game' game.id %}"
+        class="btn btn-outline-secondary btn-sm">Update</a> <br/><br/>
     {% endfor %}
     
     

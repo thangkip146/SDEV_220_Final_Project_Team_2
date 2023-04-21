@@ -75,6 +75,17 @@ def add_game(request):
     return render(request, 'events/add_game.html',
                   {'form':form, 'submitted': submitted})
 
+#page to edit/update games
+def update_game(request, game_id):
+    game = Event.objects.get(pk=game_id)
+    form = EventForm(request.POST or None, instance=game)
+    if form.is_valid():
+        form.save()
+        return redirect('list-games')
+    return render(request, 'events/update_game.html',
+                  {'game': game,
+                   'form':form})
+
 #Page to add new game rooms (locked behind page admin access only)
 def add_room(request):
     submitted = False
@@ -93,11 +104,13 @@ def add_room(request):
     return render(request, 'events/add_room.html',
                   {'form':form, 'submitted': submitted})
 
+#page to show all game rooms
 def all_rooms(request):
     room_list = GameRoom.objects.all()
     return render(request, 'events/rooms_list.html',
                   {'room_list': room_list})
 
+#page to show individual game rooms
 def show_room(request, room_id):
     room = GameRoom.objects.get(pk=room_id)
     return render(request, 'events/room.html',
