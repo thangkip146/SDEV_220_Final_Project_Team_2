@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
@@ -75,3 +75,23 @@ def add_room(request):
     return render(request, 'events/add_room.html',
                   {'form':form, 'submitted': submitted})
 
+def all_rooms(request):
+    room_list = GameRoom.objects.all()
+    return render(request, 'events/rooms_list.html',
+                  {'room_list': room_list})
+
+def show_room(request, room_id):
+    room = GameRoom.objects.get(pk=room_id)
+    return render(request, 'events/room.html',
+                  {'room': room})
+
+#page to update the room tables
+def update_room(request, room_id):
+    room = GameRoom.objects.get(pk=room_id)
+    form = GameRoomForm(request.POST or None, instance=room)
+    if form.is_valid():
+        form.save()
+        return redirect('list-rooms')
+    return render(request, 'events/update_room.html',
+                  {'room': room,
+                   'form':form})
