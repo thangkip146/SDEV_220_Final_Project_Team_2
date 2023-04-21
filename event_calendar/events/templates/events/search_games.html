@@ -1,0 +1,16 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+ 
+    {% if searched %}
+        <h2>Serch results for {{ searched }}</h2>
+        {% for game in games%}
+            <a href="{% url 'show-game' game.id %}">{{ game }}</a> - {{ game.game_date }}<br/>
+        {% endfor %}
+    {%else%}
+       <h2>Cannot leave search field blank</h2>
+    {% endif %}
+    
+
+{% endblock %}
