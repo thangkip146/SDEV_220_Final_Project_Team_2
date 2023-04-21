@@ -41,6 +41,12 @@ def all_games(request):
     return render(request, 'events/game_list.html',
                   {'game_list': game_list})
 
+#Page to list individual game
+def show_game(request, game_id):
+    game = Event.objects.get(pk=game_id)
+    return render(request, 'events/game.html',
+                  {'game': game})
+
 #Page to add new game rooms (locked behind page admin access only)
 def add_room(request):
     submitted = False
@@ -58,3 +64,4 @@ def add_room(request):
     
     return render(request, 'events/add_room.html',
                   {'form':form, 'submitted': submitted})
+

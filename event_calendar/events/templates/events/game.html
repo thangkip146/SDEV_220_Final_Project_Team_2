@@ -3,22 +3,21 @@
 {% block content %}
     
     <h1>Magic Corner</h1>
-    <h2>Games List</h2>
-    Click on game for more information<br/><br/>
-    
-    {% for game in game_list %}
+        <h2>{{ game }}</h2>
+
         
-        <a  href="{% url 'show-game' game.id %}">{{ game }}</a>
+       
         <ul>
             
             <li>Date & Time: {{ game.game_date }}</li>
             <li>Room #: {{ game.game_room }}</li>
             <li>Hosted By: {{ game.table_host }}</li>
-
+            <li>Description: {{ game.game_description }}</li>
+            <li>Max Players: {{ game.game_room.max_players }}</li>
+            <li>Players Attending: <br/>
+            {% for player in game.players.all %}
+                {{ player }} <br/>
             </li>
         </ul>
     {% endfor %}
-    
-    
-    
 {% endblock %}
