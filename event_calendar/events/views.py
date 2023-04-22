@@ -37,7 +37,7 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
 
 #Page to list all the registered games in one list
 def all_games(request):
-    game_list = Event.objects.all()
+    game_list = Event.objects.all().order_by('game_date', 'game_name')
     return render(request, 'events/game_list.html',
                   {'game_list': game_list})
 
