@@ -13,8 +13,9 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'list-games' %}">Games</a></li>
-              <li><a class="dropdown-item" href="{% url 'add-game' %}">Add Game</a></li>
-
+              {%  if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'add-game' %}">Add Game</a></li>
+              {% endif %}
             </ul>
           </li>
 
@@ -25,8 +26,9 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'list-rooms' %}">Rooms</a></li>
-              <li><a class="dropdown-item" href="{% url 'add-room' %}">Add Game Room</a></li>
-
+              {%  if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'add-room' %}">Add Game Room</a></li>
+              {% endif %}
             </ul>
           </li>
 
