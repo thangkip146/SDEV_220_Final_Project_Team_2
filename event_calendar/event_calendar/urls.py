@@ -19,4 +19,12 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('events.urls')),
+    path('members/', include('django.contrib.auth.urls')),
+    path('members/', include('members.urls')),
+
 ]
+
+#Configure admin site titles for better clarity
+admin.site.site_header = "Magic Corner Admin Page"
+admin.site.site_title = "Magic Corner - Admin"
+admin.site.index_title="Magic Corner Administration Page"

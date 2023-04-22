@@ -1,14 +1,22 @@
 {% extends 'events/base.html' %}
 
 {% block content %}
+    {%  if user.is_authenticated %}   
+        <h2>Update Game</h2>
+        {% if user == game.table_host %}
 
-    <h2>Update Game</h2>
-    <br/><br/>
-    <form method=POST>
-        {% csrf_token %}   
-        {{ form.as_p}}
-        <br/>
-        <br/>
-        <input type="submit" value="Update" class="btn btn-secondary">
-
+        
+        <br/><br/>
+        <form method=POST>
+            {% csrf_token %}   
+            {{ form.as_p}}
+            <br/>
+            <br/>
+            <input type="submit" value="Update" class="btn btn-secondary">
+        {% else %}
+        This can only be updated by the Table Host: {{ game.table_host }}, for this game 
+        {% endif %}
+    {% else %}
+        <h2>You must login to view this page</h2>
+    {% endif %}
 {% endblock %}

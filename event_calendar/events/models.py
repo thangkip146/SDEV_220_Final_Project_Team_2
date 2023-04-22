@@ -12,7 +12,7 @@ class MagicCornerUser(models.Model):
 class GameRoom(models.Model):
     room_name = models.CharField('Room Name', max_length=30, blank=True)
     max_players = models.IntegerField('Max Players')
-    is_full = models.BooleanField('Room Full', blank=True, null=True)
+    owner = models.IntegerField(blank=False, default=1)
 
     def __str__(self):
         return str(self.room_name)

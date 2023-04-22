@@ -1,7 +1,7 @@
 {% extends 'events/base.html' %}
 
 {% block content %}
-
+{%  if user.is_authenticated %}   
     <h2>Update Rooms</h2>
     <br/><br/>
     <form method=POST>
@@ -10,5 +10,7 @@
         <br/>
         <br/>
         <input type="submit" value="Update" class="btn btn-secondary">
-
+{% else %}
+    <h2>You must login to view this page</h2>
+{% endif %}
 {% endblock %}

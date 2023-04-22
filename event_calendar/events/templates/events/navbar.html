@@ -7,24 +7,44 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-game' %}">Add Game</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-games' %}">Games List</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-room' %}">Add Game Room</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-rooms' %}">Rooms</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Scheduled Games
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'list-games' %}">Games</a></li>
+              {%  if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'add-game' %}">Add Game</a></li>
+              {% endif %}
+            </ul>
           </li>
 
 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Game Rooms
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'list-rooms' %}">Rooms</a></li>
+              {%  if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'add-room' %}">Add Game Room</a></li>
+              {% endif %}
+            </ul>
+          </li>
 
+
+          {%  if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register-user' %}">Create Account</a>
+            </li>
+          {% endif %}
 
 
         </ul>
