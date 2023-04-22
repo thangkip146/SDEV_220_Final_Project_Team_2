@@ -25,6 +25,13 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
     current_year = now.year
     current_month = now.month
 
+    #get games by date
+    games_list = Event.objects.filter(
+        game_date__year = year,
+        game_date__month = month_number
+    )
+    #get user's name if they are logged in
+    name=request.user
     return render(request, 'events/index.html', {
         "year":year,
         "month":month,
@@ -32,6 +39,8 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
         "cal":cal,
         "current_year":current_year,
         "current_month":current_month,
+        "games_list":games_list,
+        "name":name,
     })
 
 #Page to list all the registered games in one list
