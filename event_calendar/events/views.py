@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
+from django.contrib.auth.models import User
 from .models import Event, MagicCornerUser, GameRoom
-from .forms import GameRoomForm, EventForm
+from .forms import GameRoomForm, EventFormAdmin, EventFormUser
 from django.http import HttpResponseRedirect
-
+from django.contrib import messages
 
 #Default to current Month and Year
 def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     #Render page using the year and month passed from the url or default if not passed
-    name = "Nathan"
     #ensure the month from url has capital so it is recognized by calendar
     month = month.title()
     #Convert month from name to number
@@ -28,7 +28,6 @@ def index(request, year=datetime.now().year, month=datetime.now().strftime('%B')
     return render(request, 'events/index.html', {
         "year":year,
         "month":month,
-        "name": name,
         "month_number":month_number,
         "cal":cal,
         "current_year":current_year,
@@ -62,13 +61,24 @@ def add_game(request):
     submitted = False
     #Validate if form is being submitted to post to database
     if request.method == "POST":
-        form = EventForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/add_game?submitted=True/')
-
+        #Test for admin vs standard user and load appropriate form
+        if request.user.is_superuser:
+            form = EventFormAdmin(request.POST)
+            if form.is_valid:
+                form.save()
+                return HttpResponseRedirect('/add_game?submitted=True/')
+        else:
+            form = EventFormUser(request.POST)
+            if form.is_valid():
+                new_game = form.save(commit=False)
+                new_game.table_host = request.user
+                new_game.save()
+                return HttpResponseRedirect('/add_game?submitted=True/')
     else:
-        form = EventForm
+        if request.user.is_superuser:
+            form = EventFormAdmin(request.POST)
+        else:
+            form = EventFormUser(request.POST)
         if 'submitted' in request.GET:
             submitted = True
     
@@ -78,7 +88,10 @@ def add_game(request):
 #page to edit/update games
 def update_game(request, game_id):
     game = Event.objects.get(pk=game_id)
-    form = EventForm(request.POST or None, instance=game)
+    if request.user.is_superuser:
+        form = EventFormAdmin(request.POST or None, instance=game)
+    else:
+        form = EventFormUser(request.POST or None, instance=game)
     if form.is_valid():
         form.save()
         return redirect('list-games')
@@ -89,8 +102,13 @@ def update_game(request, game_id):
 #page to delete game
 def delete_game(request, game_id):
     game = Event.objects.get(pk=game_id)
-    game.delete()
-    return redirect('list-games')
+    if request.user == game.table_host:
+        game.delete()
+        messages.success(request, "Game Canceled")
+        return redirect('list-games')
+    else:
+        messages.success(request, "Not Authorized to cancel this game")
+        return redirect('list-games')
 
 #Page to add new game rooms (locked behind page admin access only)
 def add_room(request):
@@ -99,7 +117,9 @@ def add_room(request):
     if request.method == "POST":
         form = GameRoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_room = form.save(commit=False)
+            new_room.table_host = request.user
+            new_room.save()
             return HttpResponseRedirect('/add_room?submitted=True/')
 
     else:
