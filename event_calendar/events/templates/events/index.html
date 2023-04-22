@@ -1,12 +1,28 @@
 {% extends 'events/base.html' %}
 
 {% block content %}
-    <center>
    
-    <h2> Events for {{ month }} {{ year }}</h2>
+   
+    <h2>
+        {%  if user.is_authenticated %}
+        Hello {{ name }}! 
+        {% endif %}
+        Events for {{ month }} {{ year }}</h2>
     <br/>
 
     {{ cal|safe }}
     
-    </center>
-{% endblock %}
+   
+    <br/><br/><br/>
+
+    {% if games_list %}
+        {% for game in games_list %}
+            {{ game }} -- {{ game.game_date }} <br/>
+        {% endfor %}
+    {% else %}
+    Sorry, there are no games this month. Check the Games list page for additional games coming up.
+    {% endif %}
+
+    {% endblock %}
+
+

@@ -15,7 +15,7 @@ class EventFormAdmin(ModelForm):
         fields = ('game_name', 'game_date', 'game_room', 'table_host', 'game_description')
         labels = {
            'game_name':'Game Name' ,
-           'game_date':'Game Date' ,
+           'game_date':'Game Date YYYY-MM-DD HH:MM:SS' ,
            'game_room':'Game Room' ,
            'table_host':'Table Host' ,
            'game_description':'Game Description' ,
