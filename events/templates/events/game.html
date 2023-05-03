@@ -1,0 +1,23 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    
+   
+        <h2>{{ game }}</h2>
+
+        
+       
+        <ul>
+            
+            <li>Date & Time: {{ game.game_date }}</li>
+            <li>Room #: {{ game.game_room }}</li>
+            <li>Hosted By: {{ game.table_host }}</li>
+            <li>Description: {{ game.game_description }}</li>
+            <li>Max Players: {{ game.game_room.max_players }}</li>
+            <li>Players Attending: <br/>
+            {% for player in game.players.all %}
+                {{ player }} <br/>
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}
